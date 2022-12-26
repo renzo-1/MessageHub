@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
+            integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+            crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"
+            integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1"
+            crossorigin="anonymous"></script>
+        <script src="/socket.io/socket.io.js"></script>
+        <title>MessageHub</title>
+    </head>
+
+    <body>
+        <nav>
+            <ul>
+                <li><a href="/login">Login</a></li>
+                <li><a href="/register">register</a></li>
+                <li><a href="/logout">Logout</a></li>
+            </ul>
+        </nav>
+        <main>
+            <form action="/api/convo?username=" method="GET" autocomplete="off">
+                <label for="searchContact"></label>
+                <input id="searchContact" name='username' />
+                <button>Search</button>
+            </form>
+
+            <% if (foundContact && foundContact.length> 0) {%>
+                <h3>Found Contact</h3>
+                <h4>
+                    <%=foundContact[0].username%>
+                </h4>
+                <form action="/convo" method="POST">
+                    <input type="hidden" name="id" value="<%=foundContact[0]._id%>" />
+                    <button>Add Contact</button>
+                </form>
+                <% } %>
+                    <h3>Convos List</h3>
+                    <ul>
+                        <% if (convoList.length!=0) {%>
+                            <% for (i of convoList) {%>
+                                <a href="/convo/<%=i._id%>">
+                                    <li>
+                                        <% if (currentUser && currentUser._id.toString()==i.sender._id.toString()){%>
+                                            <h4>
+                                                <%=i.receiver.username%>
+                                            </h4>
+                                            <% } else { %>
+                                                <h4>
+                                                    <%=i.sender.username%>
+                                                </h4>
+                                                <% } %>
+
+                                                    <% if (i.messages && i.messages.length> 0) {%>
+                                                        <p>
+                                                            <%= i.messages[0].body%>
+                                                        </p>
+                                                        <% } %>
+                                </a>
+                                <form action="/convo/<%=i._id%>?_method=DELETE" method="POST">
+                                    <button>Delete</button>
+                                </form>
+                                </li>
+                                <% } %>
+                    </ul>
+                    <% } %>
+                        <% if(selectedConvoID) {%>
+
+                            <textarea id="message" class="form-control" placeholder="Your Message Here"></textarea>
+                            <button id="send" class="btn btn-success">Send</button>
+                            <div id="messages"></div>
+                            <div id='selectedConvoID' value="<%=selectedConvoID %>"></div>
+
+                            <% } %>
+    </body>
+
+</html>
+<script>
+    const socket = io();
+    const id = $(selectedConvoID).attr('value');
+    console.log(id)
+    $(() => {
+        $("#send").click(() => {
+            sendMessage({ message: $("#message").val() });
+        })
+
+        getMessages()
+    })
+
+    socket.on('newMessage', addMessages)
+
+    function addMessages(message) {
+        $("#messages").append(`<h4> Sender ${message.sender} </h4> <h4> Receiver ${message.receiver} </h4><p> ${message.body} - ${message.creationTime}</p>`)
+    }
+
+    function getMessages() {
+        $.get(`http://localhost:3000/convo/${id}/message/n`, (data) => {
+            data.forEach(addMessages);
+        })
+    }
+
+    function sendMessage(newMessage) {
+        $.post(`http://localhost:3000/convo/${id}/message/n`, newMessage)
+    }
+
+</script>

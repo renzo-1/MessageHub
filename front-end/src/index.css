@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #212529;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+#username::placeholder,
+#message::placeholder {
+  color: rgb(203 213 225);
+  opacity: 1;
+}
