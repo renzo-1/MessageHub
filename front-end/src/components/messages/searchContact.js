@@ -1,8 +1,7 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import FlashError from "../flashError";
-const controller = new AbortController();
-
+import { searchIcon } from "../../assets";
 export default function SearchContact() {
   const [result, setResult] = useState();
   const [username, setUsername] = useState("");
@@ -29,6 +28,7 @@ export default function SearchContact() {
         setError({ status: err.response, message: err.response });
       });
   }
+
   if (error.status !== 200) {
     return (
       <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-28 rounded-lg bg-white drop-shadow-lg border border-rose-900 text-center text-2xl">
@@ -48,7 +48,7 @@ export default function SearchContact() {
           onSubmit={handleSearchUser}
         >
           <input
-            className="p-2 w-full text-slate-100 rounded-2xl border bg-transparent border-slate-300"
+            className="p-2 w-full text-slate-100 rounded-xl border bg-transparent border-slate-300"
             required
             id="username"
             value={username}
@@ -57,7 +57,7 @@ export default function SearchContact() {
             placeholder="Find user"
           />
           <button className="p-3 absolute right-0">
-            <img className="h-4 w-4" src="/searchIcon.svg" />
+            <img className="h-4 w-4" src={searchIcon} />
           </button>
         </form>
         {result && result.length > 0 && (

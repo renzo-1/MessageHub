@@ -1,17 +1,16 @@
 import React, { useState, useEffect, useMemo } from "react";
-import { Navigate, useParams } from "react-router-dom";
 import axios from "axios";
 import FlashError from "../flashError";
 import Messages from "./messages";
 import SearchContact from "./searchContact";
 import Navbar from "../navbar";
-
+import Contacts from "./Contacts";
 const controller = new AbortController();
 
 export default function Main() {
   const [error, setError] = useState({ status: 200, message: "" });
-  const [selectedConvo, setSelectedConvo] = useState(null);
-  const [deleteConvoID, setDeleteConvoID] = useState("");
+  const [selectedConvo, setSelectedConvo] = useState("");
+  const [hideContacts, setHideContacts] = useState(false);
   const [userData, setUserData] = useState({
     currentUser: {},
     convoList: [],
@@ -37,16 +36,6 @@ export default function Main() {
     };
   }, []);
 
-  function handleDeleteConvo(e) {
-    axios
-      .post(`/api/convo/${deleteConvoID}?_method=DELETE`, {
-        withCredentials: true,
-      })
-      .catch((err) => {
-        setError({ status: err.response, message: "Server Error" });
-      });
-  }
-
   if (error.status !== 200) {
     return (
       <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-28 rounded-lg bg-white drop-shadow-lg border border-rose-900 text-center text-2xl">
@@ -58,52 +47,28 @@ export default function Main() {
   return (
     <>
       <Navbar />
-      <div className="md:container h-screen overflow-hidden pt-28 pb-10 flex relative">
-        <div className="w-1/4 h-full p-8 mr-8 rounded-3xl bg-lighter-grey drop-shadow-lg">
-          {<SearchContact />}
-          <ul className="mt-8 space-y-3">
-            {userData.convoList.map((convo, i) => (
-              <li className="list-none relative flex items-center" key={i}>
-                <button
-                  className="w-full py-2 border-b border-slate-700 text-xl text-left font-medium text-slate-100 tracking-widest"
-                  onClick={() => setSelectedConvo(convo._id)}
-                  // href={`/convo/${convo._id}`}
-                >
-                  {userData.currentUser._id === convo.sender._id
-                    ? convo.receiver.username
-                    : convo.sender.username}
-                </button>
-                <form
-                  className="inline-block absolute right-0 "
-                  onSubmit={handleDeleteConvo}
-                >
-                  <button
-                    value={deleteConvoID}
-                    onClick={() => {
-                      setDeleteConvoID(convo._id);
-                    }}
-                  >
-                    <img
-                      className="h-5 w-5"
-                      src="/deleteIcon.svg"
-                      alt="delete button"
-                    />
-                  </button>
-                </form>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <div className="w-3/4 h-full relative">
-          {selectedConvo && (
+      <div className="container h-[90%] p-2 sm:p-0 sm:py-4 lg:py-4 overflow-hidden grid grid-cols-1 grid-rows-1 relative">
+        {hideContacts ? (
+          selectedConvo && (
             <Messages
-              // id={convoID}
               id={selectedConvo}
               currentUser={userData.currentUser.username}
+              setHideContacts={setHideContacts}
             />
-          )}
-        </div>
+          )
+        ) : (
+          <div className="flex flex-col pt-10 px-10 rounded-xl md:rounded-2xl bg-lighter-grey drop-shadow-lg">
+            <SearchContact />
+            <Contacts
+              userData={userData}
+              setSelectedConvo={setSelectedConvo}
+              setHideContacts={setHideContacts}
+              setError={setError}
+            />
+          </div>
+        )}
+
+        {/* <img className="w-10 ml-10 mt-10" src={people} alt="contact button" /> */}
       </div>
     </>
   );

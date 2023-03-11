@@ -1,6 +1,6 @@
 module.exports.sessionConfig = {
   name: "MessageHub",
-  secret: "AiWEm329aK2!!-",
+  secret: "yoursecret",
   resave: false,
   saveUninitialized: false,
   cookie: {

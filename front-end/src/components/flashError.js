@@ -12,7 +12,7 @@ function FlashError({ status, message }) {
         {status} {message}
       </h4>
       {status === 402 && (
-        <a className="font-bold text-sky-600 underline " href="/login">
+        <a className="font-bold text-sky-600 underline " href="/">
           Go to Login
         </a>
       )}

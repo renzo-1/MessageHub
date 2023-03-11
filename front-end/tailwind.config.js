@@ -9,21 +9,12 @@ module.exports = {
     },
     extend: {
       colors: {
-        "bluish-white": "#EDF6F9",
-        "button-color": "#13B58B",
+        tertiary: "#EDF6F9",
+        secondary: "#13B58B",
         "lighter-grey": "#343a40",
-        "bg-grey": "#212529",
+        primary: "#212529",
         sender: "rgb(51 65 85)",
         receiver: "#D6D6D6",
-      },
-      spacing: {
-        "100%": "100%",
-        "90%": "90%",
-        "80%": "80%",
-        "40%": "40%",
-        "30%": "30%",
-        "20%": "20%",
-        "10%": "10%",
       },
       keyframes: {
         load: {
