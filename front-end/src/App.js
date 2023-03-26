@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import { Routes, BrowserRouter, Route } from "react-router-dom";
-import Register from "./components/user/register";
-import Login from "./components/user/login";
-import Main from "./components/messages/main";
-import Navbar from "./components/navbar";
+import Register from "./components/user/Register";
+import Login from "./components/user/Login";
+import Main from "./components/messages/Main";
 function App() {
   return (
     <>

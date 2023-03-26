@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useMemo } from "react";
 import axios from "axios";
-import FlashError from "../flashError";
-import Messages from "./messages";
-import SearchContact from "./searchContact";
-import Navbar from "../navbar";
+import FlashError from "../FlashError";
+import Messages from "./Messages";
+import SearchContact from "./SearchContact";
+import Navbar from "../Navbar";
 import Contacts from "./Contacts";
 const controller = new AbortController();
 
@@ -57,7 +57,7 @@ export default function Main() {
             />
           )
         ) : (
-          <div className="flex flex-col pt-10 px-10 rounded-xl md:rounded-2xl bg-lighter-grey drop-shadow-lg">
+          <div className="w-full max-w-[1000px] mx-auto flex flex-col pt-10 px-10 rounded-xl md:rounded-2xl bg-lighter-grey drop-shadow-lg">
             <SearchContact />
             <Contacts
               userData={userData}
@@ -67,8 +67,6 @@ export default function Main() {
             />
           </div>
         )}
-
-        {/* <img className="w-10 ml-10 mt-10" src={people} alt="contact button" /> */}
       </div>
     </>
   );

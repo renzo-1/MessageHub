@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-import FlashError from "../flashError";
+import FlashError from "../FlashError";
 import { searchIcon } from "../../assets";
 export default function SearchContact() {
   const [result, setResult] = useState();

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import FlashError from "../flashError";
+import FlashError from "../FlashError";
 import { heroImg } from "../../assets";
 import { styles } from "./styles";
 

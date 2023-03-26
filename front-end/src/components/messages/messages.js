@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import axios from "axios";
-import FlashError from "../flashError";
+import FlashError from "../FlashError";
 import io from "socket.io-client";
 import { arrowLeft } from "../../assets";
 const socket = io("http://localhost:3000/");

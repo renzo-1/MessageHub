@@ -20,7 +20,7 @@ const Contacts = ({
   }
 
   return (
-    <ul className="mt-8">
+    <ul className="mt-8 ">
       {userData.convoList.map((convo, i) => (
         <li
           className="list-none relative flex items-center py-4 border-b border-slate-700"

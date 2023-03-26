@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import FlashError from "../flashError";
+import FlashError from "../FlashError";
 import { styles } from "./styles";
 function Register() {
   const [error, setError] = useState({ status: "", message: "" });
