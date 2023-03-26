@@ -57,7 +57,7 @@ const io = require("socket.io")(server, {
 io.on("connection", (socket) => {
   socket.on("joinRoom", (room) => {
     socket.join(room);
-    console.log("welcome", `A New User Joined at : ${room}`);
+    // console.log("welcome", `A New User Joined at : ${room}`);
   });
 
   socket.on("leaveRoom", (room) => socket.leave(room));
